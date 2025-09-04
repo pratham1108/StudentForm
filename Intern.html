@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Registration Form</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e5e8f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 3rem 1rem 4rem;
+  }
+  /* Container for form */
+  .form-container {
+    background: #faeaff;
+    width: 100%;
+    max-width: 720px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 8px 18px rgb(126 61 191 / 0.19);
+    padding: 2rem 2.5rem 3rem;
+  }
+
+  /* Header bars */
+  .top-header, .bottom-header {
+    width: 100%;
+    max-width: 720px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgb(0 0 0 / 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    user-select: none;
+  }
+  .top-header {
+    background: #f3f4fa;
+    margin-bottom: 1rem;
+    color: #433fde;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 8px;
+  }
+  .bottom-header {
+    margin-top: 1rem;
+    background: #e6f5f0;
+    color: #00805e;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  /* Gradient heading above the form */
+  .form-title {
+    background: linear-gradient(90deg, #6a52f7, #de2f94);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.3rem;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    padding: 1.1rem 0;
+    margin: -2rem -2.5rem 1.6rem;
+    box-shadow: 0 4px 12px rgb(110 68 255 / 0.44);
+    user-select: none;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  /* Flex grid layout for row inputs */
+  .row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .row.half > * {
+    flex: 1 1 50%;
+  }
+  .row.third > * {
+    flex: 1 1 30%;
+  }
+  .row.fourth > * {
+    flex: 1 1 22%;
+  }
+  .row.fourth .spacer {
+    flex-grow: 1;
+  }
+
+  /* Label with smaller text */
+  label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  /* Input and select styles */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #d9d4e6;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #6a52f7;
+    box-shadow: 0 0 8px rgb(106 82 247 / 0.4);
+    background-color: #fff;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  /* Custom spacing for DOB selects */
+  .dob-group > * {
+    flex: 1 1 auto;
+  }
+  .dob-group select {
+    padding-left: 0.7rem;
+  }
+
+  /* Gender radios inline */
+  .gender-group {
+    display: flex;
+    gap: 1.5rem;
+    padding-top: 0.2rem;
+  }
+  .gender-group label {
+    font-weight: 400;
+    font-size: 0.95rem;
+    user-select: none;
+  }
+  .gender-group input[type="radio"] {
+    margin-right: 0.25rem;
+    vertical-align: middle;
+  }
+
+  /* Hobbies checkboxes layout */
+  .hobbies-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.3rem;
+    padding-top: 0.2rem;
+  }
+  .hobbies-group label {
+    font-weight: 400;
+    user-select: none;
+  }
+  .hobbies-group input[type="checkbox"] {
+    margin-right: 0.25rem;
+    vertical-align: middle;
+  }
+
+  /* Qualification table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: white;
+    box-shadow: none;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  thead tr {
+    background: #f6f1fa;
+    border-bottom: 1px solid #ccc4dd;
+  }
+  thead th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #737485;
+    padding: 0.8rem 0.9rem;
+    text-align: left;
+    border-right: 1px solid #ccc4dd;
+  }
+  thead th:last-child {
+    border-right: none;
+  }
+  tbody td {
+    padding: 0.5rem 0.9rem;
+    border-right: 1px solid #eee5f4;
+    font-size: 0.9rem;
+  }
+  tbody td:last-child {
+    border-right: none;
+  }
+  tbody tr:nth-child(odd) {
+    background: #faf8fc;
+  }
+  tbody input[type="text"] {
+    padding: 0.35rem 0.4rem;
+    font-size: 0.85rem;
+    border: 1px solid #d9d4e6;
+    border-radius: 3px;
+  }
+  tbody input[type="text"]:focus {
+    border-color: #6a52f7;
+    box-shadow: 0 0 4px rgb(106 82 247 / 0.4);
+    outline: none;
+  }
+  tbody td.srno {
+    font-weight: 600;
+    color: #5f547a;
+    width: 28px;
+  }
+  tbody td.exam {
+    font-weight: 600;
+    color: #29264c;
+    width: 110px;
+  }
+
+  /* Course applied radio group */
+  .course-group {
+    padding-top: 1rem;
+    display: flex;
+    gap: 1.7rem;
+  }
+  .course-group label {
+    font-weight: 400;
+    user-select: none;
+  }
+  .course-group input[type="radio"] {
+    margin-right: 0.25rem;
+    vertical-align: middle;
+  }
+
+  /* Buttons container and styling */
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  button, input[type="reset"] {
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    padding: 0.55rem 1.6rem;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  input[type="reset"] {
+    background-color: #f0f0f0;
+    color: #3d3c49;
+    border: 1.7px solid #dcd9e8;
+    box-shadow: 0 1.5px 3px rgb(0 0 0 / 0.06);
+  }
+  input[type="reset"]:hover {
+    background-color: #dad4ea;
+    border-color: #887dd7;
+  }
+  input[type="submit"] {
+    background: linear-gradient(90deg, #722de7, #e31781);
+    color: white;
+    box-shadow: 0 0 12px #a33cee;
+  }
+  input[type="submit"]:hover {
+    filter: brightness(1.15);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .row.half > * {
+      flex-basis: 100%;
+    }
+    .row.third > * {
+      flex-basis: 100%;
+    }
+    .row.fourth > * {
+      flex-basis: 100%;
+    }
+    .row.fourth .spacer {
+      display: none;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="top-header" aria-label="Modern Registration Form header">
+    Modern Registration Form
+  </div>
+
+  <section class="form-container" aria-labelledby="student-registration-form-title">
+    <h1 class="form-title" id="student-registration-form-title" tabindex="0">
+      Student Registration Form
+    </h1>
+
+    <form action="#" method="POST" novalidate>
+      <!-- Name fields -->
+      <div class="row half" style="margin-bottom:1.4rem;">
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Enter first name" autocomplete="given-name" />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Enter last name" autocomplete="family-name" />
+        </div>
+      </div>
+
+      <!-- Date of Birth -->
+      <div class="row dob-group half" style="margin-bottom:1.25rem;">
+        <label for="dob-day" style="flex-basis:100%; font-weight:600; margin-bottom:.1rem;">Date of Birth</label>
+        <div class="dob-container" style="display: flex; gap: 10px; align-items: center; flex: 1; min-width: 80px;">
+        <select id="dob-day" name="dobDay" aria-label="Select day of birth" required>
+          <option value="" selected disabled>Day</option>
+          <!-- Days 1 to 31 -->
+          <script>
+            for(let i=1;i<=31;i++){
+              document.write(`<option value="${i}">${i}</option>`);
+            }
+          </script>
+        </select>
+        <select id="dob-month" name="dobMonth" aria-label="Select month of birth" required>
+          <option value="" selected disabled>Month</option>
+          <option value="1">January</option><option value="2">February</option>
+          <option value="3">March</option><option value="4">April</option>
+          <option value="5">May</option><option value="6">June</option>
+          <option value="7">July</option><option value="8">August</option>
+          <option value="9">September</option><option value="10">October</option>
+          <option value="11">November</option><option value="12">December</option>
+        </select>
+        <select id="dob-year" name="dobYear" aria-label="Select year of birth" required>
+          <option value="" selected disabled>Year</option>
+          <!-- Years 1980 to 2016 -->
+          <script>
+            const yearStart = 1980, yearEnd = 2025;
+            for(let y = yearEnd; y>=yearStart; y--){
+              document.write(`<option value="${y}">${y}</option>`);
+            }
+          </script>
+        </select>
+        </div>
+      </div>
+
+      <!-- Email and Mobile -->
+      <div class="row half" style="margin-bottom:1.4rem;">
+        <div>
+          <label for="email">Email ID</label>
+          <input type="email" id="email" name="email" placeholder="Enter email address" autocomplete="email" />
+        </div>
+        <div>
+          <label for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" name="mobile" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}" maxlength="10" autocomplete="tel-national" />
+        </div>
+      </div>
+
+      <!-- Gender radios -->
+      <fieldset style="margin-bottom:1.3rem; border:none; padding:0;">
+        <legend style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem;">Gender</legend>
+        <div class="gender-group" role="radiogroup" aria-labelledby="gender-label">
+          <label for="gender-male"><input type="radio" id="gender-male" name="gender" value="male" /> Male</label>
+          <label for="gender-female"><input type="radio" id="gender-female" name="gender" value="female" /> Female</label>
+        </div>
+      </fieldset>
+
+      <!-- Address textarea -->
+      <div style="margin-bottom:1.3rem;">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Enter your full address"></textarea>
+      </div>
+
+      <!-- City, PIN, State -->
+      <div class="row fourth" style="margin-bottom:1.1rem;">
+        <div>
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" placeholder="Enter city" />
+        </div>
+        <div>
+          <label for="pin">PIN Code</label>
+          <input type="text" id="pin" name="pin" pattern="[0-9]{6}" maxlength="6" placeholder="Enter 6-digit PIN code" />
+        </div>
+        <div>
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" placeholder="Enter state" />
+        </div>
+        <div class="spacer"></div>
+      </div>
+
+      <!-- Country dropdown -->
+      <div style="margin-bottom:1.25rem;">
+        <label for="country">Country</label>
+        <select id="country" name="country" aria-label="Select country">
+          <option value="" selected disabled>Select country</option>
+          <option>United States</option>
+          <option>India</option>
+          <option>United Kingdom</option>
+          <option>Canada</option>
+          <option>Australia</option>
+          <option>Others</option>
+        </select>
+      </div>
+
+      <!-- Hobbies checkboxes -->
+      <fieldset style="margin-bottom:1.5rem; border:none; padding:0;">
+        <legend style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; ">Hobbies</legend>
+        <div class="hobbies-group" role="group" aria-labelledby="hobbies-label">
+          <label><input type="checkbox" name="hobbies" value="drawing" /><span style="font-weight: 645;"> Drawing</span></label>
+          <label><input type="checkbox" name="hobbies" value="singing" /><span style="font-weight: 645;"> Singing</span></label>
+          <label><input type="checkbox" name="hobbies" value="dancing" /><span style="font-weight: 645;"> Dancing</span></label>
+          <label><input type="checkbox" name="hobbies" value="sketching" /><span style="font-weight: 645;"> Sketching</span></label>
+          <label><input type="checkbox" name="hobbies" value="others" /><span style="font-weight: 645;"> Others</span></label>
+        </div>
+      </fieldset>
+
+      <!-- Qualification Table -->
+      <fieldset style="margin-bottom: 1.4rem; border:none; padding:0;">
+        <legend style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.75rem;">Qualification</legend>
+        <table role="grid" aria-label="Qualfication details table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 3rem;">Sr.No.</th>
+              <th scope="col" style="width: 8rem;">Examination</th>
+              <th scope="col">Board</th>
+              <th scope="col">Percentage</th>
+              <th scope="col">Year of Passing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="srno" role="rowheader">1</td>
+              <td class="exam">Class X</td>
+              <td><input type="text" name="board1" aria-label="Board for Class X" /></td>
+              <td><input type="text" name="percentage1" aria-label="Percentage for Class X" /></td>
+              <td><input type="text" name="passingYear1" aria-label="Year of passing for Class X" /></td>
+            </tr>
+            <tr>
+              <td class="srno" role="rowheader">2</td>
+              <td class="exam">Class XII</td>
+              <td><input type="text" name="board2" aria-label="Board for Class XII" /></td>
+              <td><input type="text" name="percentage2" aria-label="Percentage for Class XII" /></td>
+              <td><input type="text" name="passingYear2" aria-label="Year of passing for Class XII" /></td>
+            </tr>
+            <tr>
+              <td class="srno" role="rowheader">3</td>
+              <td class="exam">Graduation</td>
+              <td><input type="text" name="board3" aria-label="Board for Graduation" /></td>
+              <td><input type="text" name="percentage3" aria-label="Percentage for Graduation" /></td>
+              <td><input type="text" name="passingYear3" aria-label="Year of passing for Graduation" /></td>
+            </tr>
+            <tr>
+              <td class="srno" role="rowheader">4</td>
+              <td class="exam">Masters</td>
+              <td><input type="text" name="board4" aria-label="Board for Masters" /></td>
+              <td><input type="text" name="percentage4" aria-label="Percentage for Masters" /></td>
+              <td><input type="text" name="passingYear4" aria-label="Year of passing for Masters" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </fieldset>
+
+      <!-- Courses applied for radios -->
+      <fieldset style="border:none; padding:0;">
+        <legend style="font-weight: 600; font-size: 0.9rem; margin-bottom: .5rem;">Courses Applied For</legend>
+        <div class="course-group" role="radiogroup" aria-labelledby="courses-label">
+          <label><input type="radio" name="course" value="BCA" /><span style="font-weight: 645;"> BCA</span></label>
+          <label><input type="radio" name="course" value="B.Com" /><span style="font-weight: 645;"> B.Com</span></label>
+          <label><input type="radio" name="course" value="B.Sc" /><span style="font-weight: 645;"> B.Sc</span></label>
+          <label><input type="radio" name="course" value="B.A." /><span style="font-weight: 645;"> B.A</span></label>
+        </div>
+      </fieldset>
+
+      <!-- Form buttons -->
+      <div class="form-buttons">
+        <input type="reset" value="Reset" aria-label="Reset form" />
+        <input type="submit" value="Submit" aria-label="Submit form" />
+      </div>
+    </form>
+  </section>
+
+</body>
+</html>
+
